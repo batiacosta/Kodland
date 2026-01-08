@@ -320,7 +320,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47e50b5f1c61ccd4ab73cf83d967f70c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bullet: {fileID: 0}
+  bullet: {fileID: 3880604521290398851, guid: da09bbd0a3ba32b408c66f37616633fd, type: 3}
   rifleStart: {fileID: 1199892121}
   HpText: {fileID: 1450386328}
   GameOver: {fileID: 1524409991}
