@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -11,12 +13,26 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject bullet;
     [SerializeField] private Transform rifleStart;
     [SerializeField] private Text HpText;
+    [SerializeField] private CharacterController controller;
+    [SerializeField] private float moveSpeed = 20;
 
     public float health = 0;
 
     void Start()
     {
         ChangeHealth(100);
+        InputManager.OnMove +=  OnMove;
+    }
+
+    private void OnDestroy()
+    {
+        InputManager.OnMove -=  OnMove;
+    }
+
+    private void OnMove(Vector2 obj)
+    {
+        Vector3 move = transform.right * obj.x + transform.forward * obj.y;
+        controller.Move(move * moveSpeed * Time.deltaTime);
     }
 
     public void ChangeHealth(int hp)
@@ -87,4 +103,6 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+    
+    
 }
