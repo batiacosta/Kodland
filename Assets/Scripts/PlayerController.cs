@@ -12,9 +12,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform rifleStart;
     [SerializeField] private Text HpText;
 
-    [SerializeField] private GameObject GameOver;
-    [SerializeField] private GameObject Victory;
-
     public float health = 0;
 
     void Start()
@@ -38,15 +35,14 @@ public class PlayerController : MonoBehaviour
 
     public void Win()
     {
-        Victory.SetActive(true);
+        GameManager.Instance.Win();
         Destroy(GetComponent<PlayerLook>());
         Cursor.lockState = CursorLockMode.None;
     }
 
     public void Lost()
     {
-        Debug.Log("Lose");
-        GameOver.SetActive(true);
+        GameManager.Instance.GameOver();
         Destroy(GetComponent<PlayerLook>());
         Cursor.lockState = CursorLockMode.None;
     }
