@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
@@ -51,7 +52,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Mouse.current.leftButton.wasReleasedThisFrame) // Input.GetMouseButtonDown(0)
         {
             GameObject buf = Instantiate(bullet);
             buf.transform.position = rifleStart.position;
@@ -59,7 +60,7 @@ public class PlayerController : MonoBehaviour
             buf.transform.rotation = transform.rotation;
         }
         
-        if (Input.GetMouseButtonDown(1))
+        if (Mouse.current.rightButton.wasReleasedThisFrame)
         {
             Collider[] tar = Physics.OverlapSphere(transform.position, 2);
             foreach (var item in tar)
