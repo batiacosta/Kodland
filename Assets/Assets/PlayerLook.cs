@@ -1,43 +1,41 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerLook : MonoBehaviour
 {
     [SerializeField] float mouseSense;
     [SerializeField] Transform player, playerArms;
-
-    float xAxisClamp = 0;
+    
 
     // Update is called once per frame
     void Update()
     {
         Cursor.lockState = CursorLockMode.Locked;
 
-        float rotateX = Input.GetAxis("Mouse X") * mouseSense;
-        float rotateY = Input.GetAxis("Mouse Y") * mouseSense;
+        var mouseDelta = Mouse.current.delta.ReadValue();
+        float rotateX = mouseDelta.x * mouseSense; // Input.GetAxis("Mouse X")
+        float rotateY = mouseDelta.y * mouseSense; // Input.GetAxis("Mouse Y")
 
-        xAxisClamp -= rotateX;
+        var yaw = player.rotation.eulerAngles.y;
+        var pitch = player.rotation.eulerAngles.x;
+        pitch = NormalizePitch(pitch);
+        
+        yaw += rotateX;
+        pitch -= rotateY;
 
-        Vector3 rotPlayerArms = playerArms.rotation.eulerAngles;
-        Vector3 rotPlayer = player.rotation.eulerAngles;
+        pitch = Mathf.Clamp(pitch, -90, 90);
+        
+        player.rotation = Quaternion.Euler(0, yaw, 0);
+        playerArms.rotation = Quaternion.Euler(pitch, player.rotation.eulerAngles.y, 0);
 
-        rotPlayerArms.x -= rotateY;
-        rotPlayerArms.z = 0;
-        rotPlayer.y += rotateX;
+    }
 
-        if (xAxisClamp > 90)
-        {
-            xAxisClamp = 90;
-            rotPlayerArms.x = 90;
-        }
-        else if (xAxisClamp < -90)
-        {
-            xAxisClamp = -90;
-            rotPlayerArms.x = 270;
-        }
-
-        playerArms.rotation = Quaternion.Euler(rotPlayerArms);
-        player.rotation = Quaternion.Euler(rotPlayer);
+    private float NormalizePitch(float pitch)
+    {
+        if(pitch > 180) pitch -= 360;
+        return pitch;
     }
 }

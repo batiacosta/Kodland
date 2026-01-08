@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        ChangeHealth(0);
+        ChangeHealth(100);
     }
 
     public void ChangeHealth(int hp)
@@ -45,6 +45,7 @@ public class PlayerController : MonoBehaviour
 
     public void Lost()
     {
+        Debug.Log("Lose");
         GameOver.SetActive(true);
         Destroy(GetComponent<PlayerLook>());
         Cursor.lockState = CursorLockMode.None;
